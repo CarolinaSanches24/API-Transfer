@@ -15,7 +15,7 @@ class UserRepository {
           senha: passCripto,
           tipo_usuario: user.getTipoUsuario(),
         })
-        .returning("id");
+        .returning(["id", "nome_completo", "tipo_usuario"]);
       return registeredUser;
     } catch (error) {
       console.log(error.message);
