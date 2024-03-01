@@ -1,22 +1,21 @@
 class User {
-  constructor(id, nome, cpf, email, senha) {
+  constructor(id, nomeCompleto, cpfCnpj, email, senha, tipoUsuario) {
     this.id = id;
-    this.nome = nome;
-    this.cpf = cpf;
+    this.nomeCompleto = nomeCompleto;
+    this.cpfCnpj = cpfCnpj; //Recebe ou cpf ou Cpnj
     this.email = email;
     this.senha = senha;
-    this.cnpj = null;
-    this.tipo = "";
+    this.tipoUsuario = tipoUsuario;
   }
 
   getId() {
     return this.id;
   }
   getNome() {
-    return this.nome;
+    return this.nomeCompleto;
   }
-  getCpf() {
-    return this.cpf;
+  getCpfCpnj() {
+    return this.cpfCnpj;
   }
   getEmail() {
     return this.email;
@@ -24,11 +23,8 @@ class User {
   getSenha() {
     return this.senha;
   }
-  setCpnj(novoCnpj) {
-    this.cnpj = novoCnpj;
-  }
-  setTipo(novoTipo) {
-    this.tipo = novoTipo;
+  getTipoUsuario() {
+    return this.tipoUsuario;
   }
 }
 
