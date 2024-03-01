@@ -16,8 +16,14 @@ router.post("/users", async (req, res) => {
     const registeredUser = await userService.addUser(userData);
     res.status(201).json({ registeredUser });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ mensagem: "Erro interno do servidor" });
+    if (error.message === "CPF ou CNPJ já cadastrado.") {
+      res.status(400).json({ mensagem: "CPF ou CNPJ já cadastrado." });
+    } else if (error.message === "O e-mail já está cadastrado.") {
+      res.status(400).json({ mensagem: "O e-mail já está cadastrado." });
+    } else {
+      console.log(error.message);
+      res.status(500).json({ mensagem: "Erro interno do servidor" });
+    }
   }
 });
 

@@ -6,6 +6,7 @@ class UserRepository {
   addUser = async (user) => {
     try {
       const passCripto = await hash(user.getSenha(), 10); //senha criptografada
+
       const [registeredUser] = await knex("usuarios")
         .insert({
           nome_completo: user.getNome(),

@@ -1,3 +1,4 @@
+const knex = require("../../Infrastructure/database/connection");
 class User {
   constructor(id, nomeCompleto, cpfCnpj, email, senha, tipoUsuario) {
     this.id = id;
@@ -25,6 +26,20 @@ class User {
   }
   getTipoUsuario() {
     return this.tipoUsuario;
+  }
+
+  async validateCpfCnpjUnique() {
+    const cpfCnpjExist = await knex("usuarios")
+      .where("cpf_cnpj", this.getCpfCpnj())
+      .first();
+    return !!cpfCnpjExist; // Retorna true se o cpf ou cnpj já existir, false caso contrário
+  }
+
+  async validateEmailUnique() {
+    const emailExist = await knex("usuarios")
+      .where("email", this.getEmail())
+      .first();
+    return !!emailExist;
   }
 }
 

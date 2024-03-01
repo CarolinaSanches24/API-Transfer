@@ -9,18 +9,36 @@ class UserService {
   }
 
   async addUser(userData) {
-    const newUser = new User(
-      null,
-      userData.nomeCompleto,
-      userData.cpfCnpj,
-      userData.email,
-      userData.senha,
-      userData.tipoUsuario
-    );
+    try {
+      const newUser = new User(
+        null,
+        userData.nomeCompleto,
+        userData.cpfCnpj,
+        userData.email,
+        userData.senha,
+        userData.tipoUsuario
+      );
 
-    // Salvar o novo usuario no banco de dados
-    const user = await this.userRepository.addUser(newUser);
-    return user;
+      // Validação de CPF/CNPJ único
+      const cpfCnpjExist = await newUser.validateCpfCnpjUnique();
+
+      if (cpfCnpjExist) {
+        throw new Error("CPF ou CNPJ já cadastrado.");
+      }
+      // Validação de Email único
+      const emailExist = await newUser.validateEmailUnique();
+
+      if (emailExist) {
+        throw new Error("O e-mail já está cadastrado.");
+      }
+
+      // Salvar o novo usuario no banco de dados
+      const user = await this.userRepository.addUser(newUser);
+      return user;
+    } catch (error) {
+      console.log(error.message);
+      throw error;
+    }
   }
 }
 
