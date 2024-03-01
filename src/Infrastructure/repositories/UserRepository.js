@@ -5,12 +5,13 @@ const { hash } = require("bcrypt");
 class UserRepository {
   addUser = async (user) => {
     try {
+      const passCripto = await hash(user.getSenha(), 10); //senha criptografada
       const [registeredUser] = await knex("usuarios")
         .insert({
           nome_completo: user.getNome(),
           cpf_cnpj: user.getCpfCpnj(),
           email: user.getEmail(),
-          senha: user.getSenha(),
+          senha: passCripto,
           tipo_usuario: user.getTipoUsuario(),
         })
         .returning("id");
