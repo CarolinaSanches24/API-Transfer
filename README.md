@@ -1,4 +1,4 @@
-# API-Tranferencias 
+# API-Tranferencias
 
 Application Programming Interface (Interface de Programação de Aplicação) - API Fluxo de Revendedores e Lojistas.
 
@@ -6,7 +6,7 @@ Application Programming Interface (Interface de Programação de Aplicação) - 
 
 # :clipboard: Descrição do Projeto
 
-Consiste em uma API RestFull que controla operações de transferencias, 
+Consiste em uma API RestFull que controla operações de transferencias,
 Oferece conexão com Banco de Dados Remoto ou local Ex: ElephantSQL ou PostgresSQL.
 
 # Funcionalidades do Projeto
@@ -20,7 +20,7 @@ Oferece conexão com Banco de Dados Remoto ou local Ex: ElephantSQL ou PostgresS
 
 ✅ Atualizar Saldo Usuario <br>
 
-- Recebe o novo saldo , e o identificador do usuario 
+- Recebe o novo saldo , e o identificador do usuario
 - Faz as Validações Padrões de requisição (Ex: Verifica se o usuario tem cadastrado)
 - Atualiza os saldo do usuário no Banco de Dados.
 
@@ -28,6 +28,10 @@ Oferece conexão com Banco de Dados Remoto ou local Ex: ElephantSQL ou PostgresS
 
 - Implementa a autenticação por meio de JWT, onde um token é gerado após validar as credenciais do usuário.
 
+  ✅ Realizar Transferencias entre usuarios cadastrados <br>
+
+- Implementa validações para transferencia realizada.
+- Armazena o registro da tranferência no banco de dados.
 
 # :hammer_and_pick: Tecnologias Utilizadas
 
@@ -51,8 +55,6 @@ Oferece conexão com Banco de Dados Remoto ou local Ex: ElephantSQL ou PostgresS
 - Knex (query builder)
 - cors (mecanismo de segurança )
 
-# Arquitetura DDD (Domain-Driven Design)
-
 # 🚀 Inicialização
 
 - npm install : Esse comando vai ler o arquivo package.json no diretório do seu projeto, identificar todas as dependências listadas nele, e instalar todas no diretório node_modules local.
@@ -71,43 +73,40 @@ Path : http://localhost:porta
   POST /api/users
 ```
 
-| Parâmetro | Tipo     | Descrição                                |
-| :-------- | :------- | :--------------------------------------- |
-| `nomeCompleto`    | `string` | **Obrigatório**.                 |
-| `cpfCnpj`   | `string` | **Obrigatório** : Unico.               |
-| `email`   | `string` | **Obrigatório**.:Unico |
-| `senha`   | `string` | **Obrigatório**.: No mínimo 5 caracteres |
-| `tipoUsuario`   | `lojista ou revendedor` |  |
+| Parâmetro      | Tipo                    | Descrição                                |
+| :------------- | :---------------------- | :--------------------------------------- |
+| `nomeCompleto` | `string`                | **Obrigatório**.                         |
+| `cpfCnpj`      | `string`                | **Obrigatório** : Unico.                 |
+| `email`        | `string`                | **Obrigatório**.:Unico                   |
+| `senha`        | `string`                | **Obrigatório**.: No mínimo 5 caracteres |
+| `tipoUsuario`  | `lojista ou revendedor` |                                          |
 
 ```http
   POST/api/login
 ```
 
-| Parâmetro | Tipo     | Descrição                                |
-| :-------- | :------- | :--------------------------------------- |
-| `email`   | `string` | **Obrigatório**. Email válido.           |
-| `senha`   | `string` | **Obrigatório**  |
+| Parâmetro | Tipo     | Descrição                      |
+| :-------- | :------- | :----------------------------- |
+| `email`   | `string` | **Obrigatório**. Email válido. |
+| `senha`   | `string` | **Obrigatório**                |
 
 ```http
   PATCH//api/users/1
 ```
 
-| Parâmetro | Tipo     | Descrição                                |
-| :-------- | :------- | :--------------------------------------- |
-| `valor_deposito`    | `string` | **Obrigatório**.               |
-
+| Parâmetro        | Tipo     | Descrição        |
+| :--------------- | :------- | :--------------- |
+| `valor_deposito` | `string` | **Obrigatório**. |
 
 ```http
   POST/api/transferencias
 ```
 
-| Parâmetro | Tipo     | Descrição                            |
-| :-------- | :------- | :----------------------------------- |
-| `remetente_id`   | `string` | id válido |
-| `destinatario_id`   | `string` | id válido|
-| `valor`   | `string` | **valor >=0|
-
-
+| Parâmetro         | Tipo     | Descrição     |
+| :---------------- | :------- | :------------ |
+| `remetente_id`    | `string` | id válido     |
+| `destinatario_id` | `string` | id válido     |
+| `valor`           | `string` | \*\*valor >=0 |
 
 # 🤝Contribuições
 
@@ -142,4 +141,3 @@ Técnica em Informática</p>
 
 <br>
 </div>
-
