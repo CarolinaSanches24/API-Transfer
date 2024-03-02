@@ -55,26 +55,6 @@ class UserRepository {
       throw new Error(`Erro ao buscar usuário por ID: ${error.message}`);
     }
   }
-  // async atualizarSaldoUsuario(userId, novoSaldo) {
-  //   try {
-  //     const user = await knex("usuarios")
-  //       .where("id", userId)
-  //       .update({ saldo: novoSaldo });
-
-  //     if (result === 1) {
-  //       console.log(`Saldo do usuário ${userId} atualizado com sucesso.`);
-  //       return true;
-  //     } else {
-  //       console.log(
-  //         `Nenhum usuário encontrado com o ID ${userId} para atualização.`
-  //       );
-  //       return false;
-  //     }
-  //   } catch (error) {
-  //     console.error(`Erro ao atualizar saldo do usuário ${userId}:`, error);
-  //     throw error;
-  //   }
-  // }
 }
 
 module.exports = UserRepository;

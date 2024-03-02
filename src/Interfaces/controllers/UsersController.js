@@ -41,9 +41,13 @@ router.patch("/users/:userId", async (req, res) => {
     );
     res.status(200).json({ updatedUser });
   } catch (error) {
-    console.error("Erro ao atualizar o saldo do usuário:", error.message);
-    console.log("aqui");
-    res.status(500).json({ mensagem: "Erro interno do servidor" });
+    if (error.message === "Usuário  não encontrado") {
+      res.status(404).json({ mensagem: "Usuário não encontrado" });
+    } else {
+      console.error("Erro ao atualizar o saldo do usuário:", error.message);
+      console.log("aqui");
+      res.status(500).json({ mensagem: "Erro interno do servidor" });
+    }
   }
 });
 

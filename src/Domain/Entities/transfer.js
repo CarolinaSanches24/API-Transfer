@@ -1,6 +1,5 @@
 class Transf {
-  constructor(id, remetente_id, destinatario_id, valor) {
-    this.id = id;
+  constructor(remetente_id, destinatario_id, valor) {
     this.remetente_id = remetente_id;
     this.destinatario_id = destinatario_id;
     this.dataTransferencia = new Date();
@@ -14,7 +13,7 @@ class Transf {
   getDataTransferencia() {
     return this.dataTransferencia;
   }
-  getRemententeId() {
+  getRemetenteId() {
     return this.numeroContaRemetente;
   }
   getDestinatarioId() {

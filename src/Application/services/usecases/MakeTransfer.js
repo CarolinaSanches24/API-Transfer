@@ -1,25 +1,26 @@
-const UsuarioRepository = require("../../../Infrastructure/repositories/UserRepository");
+const UserRepository = require("../../../Infrastructure/repositories/UserRepository");
 const TransferenciaRepository = require("../../../Infrastructure/repositories/TrasferenciaRepository");
+const Transf = require("../../../Domain/Entities/transfer");
 
 class RealizarTransferencia {
-  constructor(usuarioRepository, transferenciaRepository) {
-    this.usuarioRepository = usuarioRepository;
+  constructor(userRepository, transferenciaRepository) {
+    this.userRepository = userRepository;
     this.transferenciaRepository = transferenciaRepository;
   }
 
   async executarTransferencia(remetenteId, destinatarioId, valor) {
     try {
-      const remetente = await this.usuarioRepository.buscarUsuarioPorId(
+      const remetente = await this.userRepository.buscarUsuarioPorId(
         remetenteId
       );
-      //verificar se o remetente existe
+      const destinatario = await this.userRepository.buscarUsuarioPorId(
+        destinatarioId
+      );
+
+      //verificar se o remetente  e o destinario existem
       if (!remetente) {
         throw new Error("Usuário remetente não encontrado");
       }
-      //Verifica se o destinatario existe
-      const destinatario = await this.usuarioRepository.buscarUsuarioPorId(
-        destinatarioId
-      );
 
       if (!destinatario) {
         throw new Error("Usuário destinatario não encontrado");
@@ -36,27 +37,27 @@ class RealizarTransferencia {
         throw new Error("saldo insuficiente");
       }
 
-      // // Deduzir o valor do saldo do remetente
-      // remetente.deduzirSaldo(valor);
-      // await this.usuarioRepository.atualizarUsuario(remetente);
+      remetente.saldo -= valor;
+      destinatario.saldo += valor;
 
-      // Adicionar o valor ao saldo do destinatário
+      // Atualizar os saldos no banco de dados
+      await this.userRepository.updateSaldoUsuario(
+        remetenteId,
+        remetente.saldo
+      );
+      await this.userRepository.updateSaldoUsuario(
+        destinatarioId,
+        destinatario.saldo
+      );
 
-      destinatario.adicionarSaldo(valor);
-      await this.usuarioRepository.atualizarSaldoUsuario(destinatario);
+      const dataTransferencia = new Date().toLocaleDateString("pt-BR");
 
-      // // Registrar a transferência
-      // const dataHora = new Date(); // Data e hora atual
-      // const transferencia = new Transferencia(
-      //   null,
-      //   remetenteId,
-      //   destinatarioId,
-      //   valor,
-      //   dataHora
-      // );
-      // await this.transferenciaRepository.salvarTransferencia(transferencia);
-
-      // return transferencia; // Retorna a transferência realizada
+      await this.transferenciaRepository.salvarTransferencia(
+        remetenteId,
+        destinatarioId,
+        valor,
+        dataTransferencia
+      );
     } catch (error) {
       throw error;
     }

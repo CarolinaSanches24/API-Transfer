@@ -1,18 +1,23 @@
 const knex = require("../database/connection");
 
 class TransferenciaRepository {
-  async salvarTransferencia(transferencia) {
+  async salvarTransferencia(
+    remetenteId,
+    destinatarioId,
+    valor,
+    dataTransferencia
+  ) {
     try {
-      // Inserir a transferência no banco de dados
-      const [id] = await knex("transferencias").insert({
-        remetente_id: transferencia.getRemetenteId(),
-        destinatario_id: transferencia.getDestinatarioId(),
-        valor: transferencia.getValor(),
-        data_hora: transferencia.getDataHora(),
+      // Inserindo a transferência no banco de dados
+      const result = await knex("transferencias").insert({
+        remetente_id: remetenteId,
+        destinatario_id: destinatarioId,
+        valor: valor,
+        data_transferencia: dataTransferencia,
       });
-
-      return id; // Retorna o ID da transferência salva
+      return result;
     } catch (error) {
+      console.error(error);
       throw new Error("Erro ao salvar a transferência no banco de dados");
     }
   }

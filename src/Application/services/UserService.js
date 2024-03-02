@@ -1,7 +1,7 @@
 //interações entre as entidades do domínio e a camada de infraestrutura
 // criar, atualizar, recuperar e excluir usuários.
 const User = require("../../Domain/Entities/User");
-
+const UserRepository = require("../../Infrastructure/repositories/UserRepository");
 class UserService {
   //construtor para receber dados da camada de Infraestrutura
   constructor(userRepository) {
@@ -43,6 +43,12 @@ class UserService {
 
   async updateSaldoUsuario(userId, novoSaldo) {
     try {
+      const userExist = await this.userRepository.buscarUsuarioPorId(userId);
+
+      if (!userExist) {
+        throw new Error("Usuário  não encontrado");
+      }
+
       // Atualizar o saldo do usuario no banco
       const updatedUserData = await this.userRepository.updateSaldoUsuario(
         userId,

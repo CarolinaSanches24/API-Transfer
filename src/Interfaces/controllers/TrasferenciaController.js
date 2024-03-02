@@ -12,6 +12,7 @@ router.post("/transferencias", async (req, res) => {
       destinatario_id,
       valor
     );
+
     res.status(200).json({ mensagem: "Transferência realizada com sucesso!" });
   } catch (error) {
     if (error.message === "Usuário remetente não encontrado") {
