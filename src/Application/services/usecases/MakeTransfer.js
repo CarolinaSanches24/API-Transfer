@@ -1,4 +1,4 @@
-const UsuarioRepository = require("../../Infrastructure/repositories/UsuarioRepository");
+const UsuarioRepository = require("../../Infrastructure/repositories/UserRepository");
 const TransferenciaRepository = require("../../Infrastructure/repositories/TransferenciaRepository");
 
 class RealizarTransferencia {
@@ -9,10 +9,16 @@ class RealizarTransferencia {
 
   async executarTransferencia(remetenteId, destinatarioId, valor) {
     try {
+      // Verificar o ti´po de usuario
+
+      const remetente_id = await this.UsuarioRepository.buscarUsuarioPorId(
+        remetenteId
+      );
       // Verificar se o remetente possui saldo suficiente
       const remetente = await this.usuarioRepository.buscarUsuarioPorId(
         remetenteId
       );
+      console.log(remetente);
       if (!remetente || remetente.getSaldo() < valor) {
         throw new Error("Remetente inválido ou saldo insuficiente");
       }

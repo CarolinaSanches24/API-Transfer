@@ -31,6 +31,15 @@ class UserRepository {
       throw error;
     }
   };
+  async buscarUsuarioPorId(userId) {
+    try {
+      const user = await knex("usuarios").where("id", userId).first();
+      console.log("Resultado da busca por usuário:", user);
+      return user;
+    } catch (error) {
+      throw new Error(`Erro ao buscar usuário por ID: ${error.message}`);
+    }
+  }
 }
 
 module.exports = UserRepository;
