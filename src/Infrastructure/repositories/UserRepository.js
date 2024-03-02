@@ -21,6 +21,16 @@ class UserRepository {
       console.log(error.message);
     }
   };
+
+  findByEmail = async (email) => {
+    try {
+      const user = await knex("usuarios").where("email", email).first();
+      return user;
+    } catch (error) {
+      console.log(error.message);
+      throw error;
+    }
+  };
 }
 
 module.exports = UserRepository;
