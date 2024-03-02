@@ -6,10 +6,6 @@ class Transf {
     this.valor = valor;
   }
 
-  getId() {
-    return this.id;
-  }
-
   getDataTransferencia() {
     return this.dataTransferencia;
   }
