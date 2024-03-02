@@ -22,6 +22,22 @@ class UserRepository {
     }
   };
 
+  async updateSaldoUsuario(userId, novoSaldo) {
+    try {
+      const [updatedUser] = await knex("usuarios")
+        .update({
+          saldo: novoSaldo,
+        })
+        .where("id", userId)
+        .returning(["id", "nome_completo", "tipo_usuario", "saldo"]);
+
+      return updatedUser;
+    } catch (error) {
+      console.log(error.message);
+      throw error;
+    }
+  }
+
   findByEmail = async (email) => {
     try {
       const user = await knex("usuarios").where("email", email).first();
@@ -34,12 +50,31 @@ class UserRepository {
   async buscarUsuarioPorId(userId) {
     try {
       const user = await knex("usuarios").where("id", userId).first();
-      console.log("Resultado da busca por usuário:", user);
       return user;
     } catch (error) {
       throw new Error(`Erro ao buscar usuário por ID: ${error.message}`);
     }
   }
+  // async atualizarSaldoUsuario(userId, novoSaldo) {
+  //   try {
+  //     const user = await knex("usuarios")
+  //       .where("id", userId)
+  //       .update({ saldo: novoSaldo });
+
+  //     if (result === 1) {
+  //       console.log(`Saldo do usuário ${userId} atualizado com sucesso.`);
+  //       return true;
+  //     } else {
+  //       console.log(
+  //         `Nenhum usuário encontrado com o ID ${userId} para atualização.`
+  //       );
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     console.error(`Erro ao atualizar saldo do usuário ${userId}:`, error);
+  //     throw error;
+  //   }
+  // }
 }
 
 module.exports = UserRepository;

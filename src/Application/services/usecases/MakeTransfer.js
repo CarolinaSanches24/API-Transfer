@@ -1,5 +1,5 @@
-const UsuarioRepository = require("../../Infrastructure/repositories/UserRepository");
-const TransferenciaRepository = require("../../Infrastructure/repositories/TransferenciaRepository");
+const UsuarioRepository = require("../../../Infrastructure/repositories/UserRepository");
+const TransferenciaRepository = require("../../../Infrastructure/repositories/TrasferenciaRepository");
 
 class RealizarTransferencia {
   constructor(usuarioRepository, transferenciaRepository) {
@@ -9,45 +9,56 @@ class RealizarTransferencia {
 
   async executarTransferencia(remetenteId, destinatarioId, valor) {
     try {
-      // Verificar o ti´po de usuario
-
-      const remetente_id = await this.UsuarioRepository.buscarUsuarioPorId(
-        remetenteId
-      );
-      // Verificar se o remetente possui saldo suficiente
       const remetente = await this.usuarioRepository.buscarUsuarioPorId(
         remetenteId
       );
-      console.log(remetente);
-      if (!remetente || remetente.getSaldo() < valor) {
-        throw new Error("Remetente inválido ou saldo insuficiente");
+      //verificar se o remetente existe
+      if (!remetente) {
+        throw new Error("Usuário remetente não encontrado");
       }
-
-      // Deduzir o valor do saldo do remetente
-      remetente.deduzirSaldo(valor);
-      await this.usuarioRepository.atualizarUsuario(remetente);
-
-      // Adicionar o valor ao saldo do destinatário
+      //Verifica se o destinatario existe
       const destinatario = await this.usuarioRepository.buscarUsuarioPorId(
         destinatarioId
       );
+
+      if (!destinatario) {
+        throw new Error("Usuário destinatario não encontrado");
+      }
+
+      // Verificar o tipo de usuario
+      if (remetente.tipo_usuario === "lojista") {
+        throw new Error("Somente revendedores podem enviar dinheiro");
+      }
+
+      // Verificar se o remetente possui saldo suficiente
+
+      if (remetente.saldo < valor) {
+        throw new Error("saldo insuficiente");
+      }
+
+      // // Deduzir o valor do saldo do remetente
+      // remetente.deduzirSaldo(valor);
+      // await this.usuarioRepository.atualizarUsuario(remetente);
+
+      // Adicionar o valor ao saldo do destinatário
+
       destinatario.adicionarSaldo(valor);
-      await this.usuarioRepository.atualizarUsuario(destinatario);
+      await this.usuarioRepository.atualizarSaldoUsuario(destinatario);
 
-      // Registrar a transferência
-      const dataHora = new Date(); // Data e hora atual
-      const transferencia = new Transferencia(
-        null,
-        remetenteId,
-        destinatarioId,
-        valor,
-        dataHora
-      );
-      await this.transferenciaRepository.salvarTransferencia(transferencia);
+      // // Registrar a transferência
+      // const dataHora = new Date(); // Data e hora atual
+      // const transferencia = new Transferencia(
+      //   null,
+      //   remetenteId,
+      //   destinatarioId,
+      //   valor,
+      //   dataHora
+      // );
+      // await this.transferenciaRepository.salvarTransferencia(transferencia);
 
-      return transferencia; // Retorna a transferência realizada
+      // return transferencia; // Retorna a transferência realizada
     } catch (error) {
-      throw new Error(`Erro ao realizar a transferência: ${error.message}`);
+      throw error;
     }
   }
 }

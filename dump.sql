@@ -6,8 +6,9 @@ CREATE TABLE usuarios (
     cpf_cnpj varchar(20) UNIQUE,
     email varchar(50) UNIQUE,
     senha text NOT NULL,
-    tipo_usuario varchar(15) CHECK (tipo_usuario IN ('logista', 'revendedor'))--para o tipo de usuario tenho revendedor, lojista
-     saldo DECIMAL(15,2) DEFAULT 0;
+    saldo DECIMAL(15,2) DEFAULT 0,
+    tipo_usuario varchar(15) CHECK (tipo_usuario IN ('lojista', 'revendedor'))--para o tipo de usuario tenho revendedor, lojista
+    
 );
 
 

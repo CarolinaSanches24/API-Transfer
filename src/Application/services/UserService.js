@@ -40,6 +40,22 @@ class UserService {
       throw error;
     }
   }
+
+  async updateSaldoUsuario(userId, novoSaldo) {
+    try {
+      // Atualizar o saldo do usuario no banco
+      const updatedUserData = await this.userRepository.updateSaldoUsuario(
+        userId,
+        novoSaldo
+      );
+
+      return updatedUserData;
+    } catch (error) {
+      console.error("Erro ao atualizar o saldo do  usuário:", error.message);
+
+      throw error;
+    }
+  }
 }
 
 module.exports = UserService;

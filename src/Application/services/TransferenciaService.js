@@ -1,6 +1,6 @@
 const UsuarioRepository = require("../../Infrastructure/repositories/UserRepository");
 const TransferenciaRepository = require("../../Infrastructure/repositories/TrasferenciaRepository");
-
+const RealizarTransferencia = require("./usecases/MakeTransfer");
 class TransferenciaService {
   constructor() {
     this.usuarioRepository = new UsuarioRepository();
@@ -9,21 +9,19 @@ class TransferenciaService {
 
   async realizarTransferencia(remetenteId, destinatarioId, valor) {
     try {
-      // Verificar se o usuário do remetente existe
-      const remetente = await this.usuarioRepository.buscarUsuarioPorId(
-        remetenteId
+      const realizarTransferencia = new RealizarTransferencia(
+        this.usuarioRepository,
+        this.transferenciaRepository
       );
-      if (!remetente) {
-        throw new Error("Usuário remetente não encontrado");
-      }
 
-      // Verificar se o usuário do destinatário existe
-      const destinatario = await this.usuarioRepository.buscarUsuarioPorId(
-        destinatarioId
-      );
-      if (!destinatario) {
-        throw new Error("Usuário destinatário não encontrado");
-      }
+      const transferenciaRealizada =
+        await realizarTransferencia.executarTransferencia(
+          remetenteId,
+          destinatarioId,
+          valor
+        );
+
+      return transferenciaRealizada;
     } catch (error) {
       throw error; // Lançar o erro para ser tratado no controlador
     }
