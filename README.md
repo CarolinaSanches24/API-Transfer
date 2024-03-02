@@ -41,7 +41,7 @@ Oferece conexão com Banco de Dados Remoto ou local Ex: ElephantSQL ou PostgresS
 <img src = "https://user-images.githubusercontent.com/25181517/192107854-765620d7-f909-4953-a6da-36e1ef69eea6.png"  width="80px" height="80px" alt="http">
 <img src = "https://user-images.githubusercontent.com/25181517/192108891-d86b6220-e232-423a-bf5f-90903e6887c3.png"  width="80px" height="80px" alt="vscode">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresSql Logo width="80px" height="80px">
-<img src="./img/elephantsqlLogo.png" height="50px">
+
 </div>
 
 ### :hammer_and_pick: Dependências Utilizadas no Projeto
@@ -137,7 +137,6 @@ Graduada em Licenciatura em Informática<br>
 Pós Graduanda de Engenharia de Software<br>
 Técnica em Informática</p>
 </div>
-<img src="./assets/Carolina Sanches Moraes .png" alt="Autora Carolina Sanches" style="border-radius:50px" width="150px" height="150px">
 
 <br>
 </div>
