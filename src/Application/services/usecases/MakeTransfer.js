@@ -37,19 +37,20 @@ class RealizarTransferencia {
         throw new Error("saldo insuficiente");
       }
 
-      remetente.saldo -= valor;
-      destinatario.saldo += valor;
+      // Iniciar a transação
+      const transaction = await this.transferenciaRepository.startTransaction();
 
       // Atualizar os saldos no banco de dados
       await this.userRepository.updateSaldoUsuario(
         remetenteId,
-        remetente.saldo
+        remetente.saldo - valor
       );
       await this.userRepository.updateSaldoUsuario(
         destinatarioId,
-        destinatario.saldo
+        destinatario.saldo + valor
       );
 
+      // Registro da transferencia
       const dataTransferencia = new Date().toLocaleDateString("pt-BR");
 
       await this.transferenciaRepository.salvarTransferencia(
@@ -58,7 +59,21 @@ class RealizarTransferencia {
         valor,
         dataTransferencia
       );
+      // Commit da transação
+      await this.transferenciaRepository.commitTransaction(transaction);
+
+      return "Transferência realizada com sucesso!";
     } catch (error) {
+      // Reverter a transação em caso de erro
+      if (remetente && destinatario) {
+        await this.userRepository.updateSaldoUsuario(
+          remetenteId,
+          remetente.saldo + valor
+        );
+      }
+      if (transaction) {
+        await this.transferenciaRepository.rollbackTransaction(transaction);
+      }
       throw error;
     }
   }

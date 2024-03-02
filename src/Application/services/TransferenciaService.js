@@ -23,7 +23,7 @@ class TransferenciaService {
 
       return transferenciaRealizada;
     } catch (error) {
-      throw error; // Lançar o erro para ser tratado no controlador
+      throw error;
     }
   }
 }
