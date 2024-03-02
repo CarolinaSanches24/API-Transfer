@@ -7,14 +7,10 @@ CREATE TABLE usuarios (
     email varchar(50) UNIQUE,
     senha text NOT NULL,
     tipo_usuario varchar(15) CHECK (tipo_usuario IN ('logista', 'revendedor'))--para o tipo de usuario tenho revendedor, lojista
+     saldo DECIMAL(15,2) DEFAULT 0;
 );
 
-CREATE table conta(
-    id serial primary key,
-    usuario_id integer,
-    saldo DECIMAL(15,2) DEFAULT 0,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
-);
+
 CREATE TABLE transferencias (
     id serial primary key,
     remetente_id integer,

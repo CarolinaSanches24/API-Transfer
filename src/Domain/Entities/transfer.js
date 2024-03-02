@@ -1,10 +1,10 @@
 class Transf {
-  constructor(id, numeroContaRemetente, numeroContaDestinatario, tipoUsuario) {
+  constructor(id, remetente_id, destinatario_id, valor) {
     this.id = id;
-    this.numeroContaRemetente = numeroContaRemetente;
-    this.numeroContaDestinatario = numeroContaDestinatario;
+    this.remetente_id = remetente_id;
+    this.destinatario_id = destinatario_id;
     this.dataTransferencia = new Date();
-    this.tipoUsuario = tipoUsuario;
+    this.valor = valor;
   }
 
   getId() {
@@ -14,10 +14,15 @@ class Transf {
   getDataTransferencia() {
     return this.dataTransferencia;
   }
-  getNumeroContaRementente() {
+  getRemententeId() {
     return this.numeroContaRemetente;
   }
-  getNumeroContaDestinatario() {
+  getDestinatarioId() {
     return this.numeroContaDestinatario;
   }
+  getValor() {
+    return this.valor;
+  }
 }
+
+module.exports = Transf;

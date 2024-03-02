@@ -7,6 +7,7 @@ class User {
     this.email = email;
     this.senha = senha;
     this.tipoUsuario = tipoUsuario;
+    this.saldo = 0;
   }
 
   getId() {
@@ -27,7 +28,21 @@ class User {
   getTipoUsuario() {
     return this.tipoUsuario;
   }
+  getSaldo() {
+    return this.saldo;
+  }
 
+  setSaldo(valor) {
+    this.saldo += this.saldo;
+  }
+
+  deduzirSaldo(valor) {
+    if (this.saldo >= valor) {
+      this.saldo -= valor;
+      return true; // Saldo suficiente
+    }
+    return false; // Saldo insuficiente
+  }
   async validateCpfCnpjUnique() {
     const cpfCnpjExist = await knex("usuarios")
       .where("cpf_cnpj", this.getCpfCpnj())
