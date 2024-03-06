@@ -19,9 +19,9 @@ class TransferenciaRepository {
       });
     } catch (error) {
       // Reverte a transação em caso de erro
-      if (transaction) {
-        await transaction.rollback();
-      }
+
+      await transaction.rollback();
+
       throw new Error("Erro ao salvar a transferência no banco de dados");
     }
   }

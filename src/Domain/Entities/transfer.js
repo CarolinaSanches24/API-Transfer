@@ -10,10 +10,10 @@ class Transf {
     return this.dataTransferencia;
   }
   getRemetenteId() {
-    return this.numeroContaRemetente;
+    return this.remetente_id;
   }
   getDestinatarioId() {
-    return this.numeroContaDestinatario;
+    return this.destinatario_id;
   }
   getValor() {
     return this.valor;

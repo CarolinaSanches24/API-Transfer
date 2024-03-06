@@ -9,36 +9,32 @@ class RealizarTransferencia {
   }
 
   async executarTransferencia(remetenteId, destinatarioId, valor) {
+    let remetente = null;
+    let destinatario = null;
     try {
-      const remetente = await this.userRepository.buscarUsuarioPorId(
-        remetenteId
-      );
-      const destinatario = await this.userRepository.buscarUsuarioPorId(
+      remetente = await this.userRepository.buscarUsuarioPorId(remetenteId);
+      destinatario = await this.userRepository.buscarUsuarioPorId(
         destinatarioId
       );
 
-      //verificar se o remetente  e o destinario existem
+      // Verificar se o remetente e o destinatário existem
       if (!remetente) {
         throw new Error("Usuário remetente não encontrado");
       }
 
       if (!destinatario) {
-        throw new Error("Usuário destinatario não encontrado");
+        throw new Error("Usuário destinatário não encontrado");
       }
 
-      // Verificar o tipo de usuario
+      // Verificar o tipo de usuário
       if (remetente.tipo_usuario === "lojista") {
         throw new Error("Somente revendedores podem enviar dinheiro");
       }
 
       // Verificar se o remetente possui saldo suficiente
-
       if (remetente.saldo < valor) {
-        throw new Error("saldo insuficiente");
+        throw new Error("Saldo insuficiente");
       }
-
-      // Iniciar a transação
-      const transaction = await this.transferenciaRepository.startTransaction();
 
       // Atualizar os saldos no banco de dados
       await this.userRepository.updateSaldoUsuario(
@@ -50,7 +46,7 @@ class RealizarTransferencia {
         destinatario.saldo + valor
       );
 
-      // Registro da transferencia
+      // Registro da transferência
       const dataTransferencia = new Date().toLocaleDateString("pt-BR");
 
       await this.transferenciaRepository.salvarTransferencia(
@@ -59,8 +55,6 @@ class RealizarTransferencia {
         valor,
         dataTransferencia
       );
-      // Commit da transação
-      await this.transferenciaRepository.commitTransaction(transaction);
 
       return "Transferência realizada com sucesso!";
     } catch (error) {
@@ -68,12 +62,10 @@ class RealizarTransferencia {
       if (remetente && destinatario) {
         await this.userRepository.updateSaldoUsuario(
           remetenteId,
-          remetente.saldo + valor
+          remetente.saldo
         );
       }
-      if (transaction) {
-        await this.transferenciaRepository.rollbackTransaction(transaction);
-      }
+
       throw error;
     }
   }
