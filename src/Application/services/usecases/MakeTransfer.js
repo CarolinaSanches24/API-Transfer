@@ -56,12 +56,16 @@ class RealizarTransferencia {
       return "Transferência realizada com sucesso!";
     } catch (error) {
       // Reverter a transação em caso de erro
-      if (remetente && destinatario) {
-        await this.userRepository.updateSaldoUsuario(
-          remetenteId,
-          remetente.saldo
-        );
-      }
+
+      await this.userRepository.updateSaldoUsuario(
+        remetenteId,
+        remetente.saldo
+      );
+
+      await this.userRepository.updateSaldoUsuario(
+        destinatarioId,
+        destinatario.saldo
+      );
 
       throw error;
     }
