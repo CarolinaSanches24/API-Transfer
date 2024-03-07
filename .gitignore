@@ -1,3 +1,4 @@
 requisitos.md
 .env
 /node_modules
+__tests__/
