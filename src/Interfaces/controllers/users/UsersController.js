@@ -3,8 +3,8 @@ const router = express.Router();
 const {
   UserService,
   handleUserCreationError,
-} = require("../../Application/services/UserService");
-const UserRepository = require("../../Infrastructure/repositories/UserRepository");
+} = require("../../../Application/services/users/UserService");
+const UserRepository = require("../../../Infrastructure/repositories/users/UserRepository");
 
 const userRepository = new UserRepository();
 
@@ -26,14 +26,13 @@ router.post("/users", async (req, res) => {
 //path => http://127.0.0.1:3000/api/users/1
 router.patch("/users/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { valor_deposito } = req.body;
+  const { deposit_amount } = req.body;
 
   try {
     // depositar dinheiro
-
-    const updatedUser = await userService.updateSaldoUsuario(
+    const updatedUser = await userService.updateUserBalance(
       userId,
-      valor_deposito
+      deposit_amount
     );
     res.status(200).json({ updatedUser });
   } catch (error) {

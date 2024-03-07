@@ -1,5 +1,5 @@
 // metodos para buscar, criar, atualizar e excluir usuários no banco de dados.
-const knex = require("../database/connection");
+const knex = require("../../database/connection");
 const { hash } = require("bcrypt");
 //Cadastrar usuario
 class UserRepository {
@@ -22,11 +22,11 @@ class UserRepository {
     }
   };
 
-  async updateSaldoUsuario(userId, novoSaldo) {
+  async updateUserBalance(userId, newValue) {
     try {
       const [updatedUser] = await knex("usuarios")
         .update({
-          saldo: novoSaldo,
+          saldo: newValue,
         })
         .where("id", userId)
         .returning(["id", "nome_completo", "tipo_usuario", "saldo"]);
@@ -47,7 +47,7 @@ class UserRepository {
       throw error;
     }
   };
-  async buscarUsuarioPorId(userId) {
+  async searchUserById(userId) {
     try {
       const user = await knex("usuarios").where("id", userId).first();
       return user;

@@ -3,9 +3,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const server = express();
-const userController = require("./Interfaces/controllers/UsersController");
-const authController = require("./Interfaces/controllers/AuthController");
-const transferController = require("./Interfaces/controllers/TrasferenciaController");
+const userController = require("./Interfaces/controllers/users/UsersController");
+const authController = require("./Interfaces/controllers/auth/AuthController");
+const transferController = require("./Interfaces/controllers/transfers/TrasferenciaController");
 
 server.use(cors());
 server.use(express.json());
