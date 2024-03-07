@@ -17,23 +17,20 @@ class RealizarTransferencia {
         destinatarioId
       );
 
-      // Verificar se o remetente e o destinatário existem
       if (!remetente) {
-        throw new Error("Usuário remetente não encontrado");
+        throw new Error("Usuário  não encontrado");
       }
 
       if (!destinatario) {
-        throw new Error("Usuário destinatário não encontrado");
+        throw new Error("Usuário  não encontrado");
       }
 
-      // Verificar o tipo de usuário
       if (remetente.tipo_usuario === "lojista") {
         throw new Error("Somente revendedores podem enviar dinheiro");
       }
 
-      // Verificar se o remetente possui saldo suficiente
       if (remetente.saldo < valor) {
-        throw new Error("Saldo insuficiente");
+        throw new Error("Saldo insuficiente para transferência.");
       }
 
       // Atualizar os saldos no banco de dados

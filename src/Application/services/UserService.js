@@ -64,4 +64,22 @@ class UserService {
   }
 }
 
-module.exports = UserService;
+const USER_ALREADY_EXISTS = "CPF ou CNPJ já cadastrado.";
+const EMAIL_ALREADY_EXISTS = "O e-mail já está cadastrado.";
+const INTERNAL_SERVER_ERROR = "Erro interno do servidor";
+const USER_NOT_FOUND = "Usuário  não encontrado";
+
+function handleUserCreationError(error, res) {
+  switch (error.message) {
+    case USER_ALREADY_EXISTS:
+      return res.status(400).json({ mensagem: USER_ALREADY_EXISTS });
+    case EMAIL_ALREADY_EXISTS:
+      return res.status(400).json({ mensagem: EMAIL_ALREADY_EXISTS });
+    case USER_NOT_FOUND:
+      return res.status(404).json({ mensagem: USER_NOT_FOUND });
+    default:
+      return res.status(500).json({ mensagem: INTERNAL_SERVER_ERROR });
+  }
+}
+
+module.exports = { UserService, handleUserCreationError };
